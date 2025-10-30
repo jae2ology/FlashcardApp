@@ -30,19 +30,24 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
+        // labels
         JLabel label1 = new JLabel("Welcome to the Flashcard App!");
         label1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label1.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
         JLabel label2 = new JLabel("Get started by adding some flashcards!");
+        label2.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
         label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // user adds flashcards:
         // TODO: loop until button is pressed to continue to add flashcards
         JPanel flashcardPanel = new JPanel();
         flashcardPanel.setLayout(new BoxLayout(flashcardPanel, BoxLayout.Y_AXIS));
+        flashcardPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 210));
 
         JButton add = new JButton("Add Flashcard");
         add.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JButton stop = new JButton("Stop Adding Flashcards");
         stop.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -51,16 +56,18 @@ public class App {
 
         add.addActionListener(e -> {
             Flashcard card = new Flashcard(flashCount[0]++);
+            card.setMaximumSize(new Dimension(400, 80)); // for each Flashcard
             flashcards.add(card);
             flashcardPanel.add(card);
             flashcardPanel.revalidate();
             flashcardPanel.repaint();
+
         }); // when the button is pressed, there will be a new card every time
 
         // when done:
-        Collections.shuffle(flashcards); // make a random list of flashcards
 
         stop.addActionListener(e -> {
+            Collections.shuffle(flashcards); // make a random list of flashcards
             flashcardPanel.setVisible(false);
             add.setVisible(false);
             stop.setVisible(false);
@@ -101,8 +108,19 @@ public class App {
                     // end of study session
                     frame.getContentPane().removeAll();
                     JLabel result = new JLabel("You got " + known[0] + " out of " + flashcards.size() + " correct!");
-                    JButton restart = new JButton("Start Over");
-                    restart.addActionListener(r -> frame.dispose()); // restart
+                    result.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                    JButton restart = new JButton("Start Over?");
+                    restart.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                    restart.addActionListener(r -> {
+                        frame.getContentPane().removeAll();
+                        frame.repaint();
+                        frame.dispose();
+                        main(null);
+
+                    }); // restart
+
                     frame.add(result);
                     frame.add(restart);
                     frame.revalidate();
@@ -132,6 +150,14 @@ public class App {
             bottomPanel.add(buttons, BorderLayout.CENTER);
             bottomPanel.add(label3, BorderLayout.SOUTH);
 
+            // alignment
+            study.setLayout(new BoxLayout(study, BoxLayout.Y_AXIS));
+            front.setAlignmentX(Component.CENTER_ALIGNMENT);
+            back.setAlignmentX(Component.CENTER_ALIGNMENT);
+            buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            // add everything >>
+
             study.add(front, BorderLayout.NORTH);
             study.add(back, BorderLayout.CENTER);
             study.add(bottomPanel, BorderLayout.SOUTH);
@@ -139,11 +165,22 @@ public class App {
             frame.add(study);
         });
 
+        // edit sizes
+        add.setMaximumSize(new Dimension(300, 40));
+        stop.setMaximumSize(new Dimension(300, 40));
+        // button colors
+        add.setBackground(Color.decode("#1D1A31"));
+        add.setForeground(Color.WHITE);
+        stop.setBackground(Color.decode("#1D1A31"));
+        stop.setForeground(Color.WHITE);
+
 
         frame.add(label1); // add everything together
         frame.add(label2);
         frame.add(flashcardPanel);
         frame.add(add);
+        // box spacing in between buttons
+        frame.add(Box.createRigidArea(new Dimension(0, 10)));
         frame.add(stop);
 
 
