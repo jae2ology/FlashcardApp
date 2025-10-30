@@ -2,11 +2,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Flashcard extends JPanel{
+public class FlashcardPanel extends JPanel{
     private JTextField front;
     private JTextField back;
 
-    public Flashcard(int number){
+    public FlashcardPanel(int number){
         setLayout(new FlowLayout());
         setBackground(Color.decode("#F08CAE")); // pink
 

@@ -10,7 +10,6 @@
 // the app will have a restart or start over option.
 
 import javax.swing.*; // mainly using javax
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,11 +50,12 @@ public class App {
         JButton stop = new JButton("Stop Adding Flashcards");
         stop.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        List<Flashcard> flashcards = new ArrayList<>();
+        List<FlashcardPanel> flashcards = new ArrayList<>();
         int[] flashCount = {1};
 
         add.addActionListener(e -> {
-            Flashcard card = new Flashcard(flashCount[0]++);
+            FlashcardPanel card = new FlashcardPanel(flashCount[0]++);
+            card.setAlignmentX(Component.CENTER_ALIGNMENT);
             card.setMaximumSize(new Dimension(400, 80)); // for each Flashcard
             flashcards.add(card);
             flashcardPanel.add(card);
@@ -97,7 +97,7 @@ public class App {
 
             Runnable showNextCard  = () -> {
                 if (index[0] < flashcards.size()){
-                    Flashcard curr = flashcards.get(index[0]);
+                    FlashcardPanel curr = flashcards.get(index[0]);
                     front.setText("Term: " + curr.getFront());
                     back.setText("Definition: " + curr.getBack());
                     back.setVisible(false);
